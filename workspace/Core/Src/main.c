@@ -185,7 +185,7 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   setTimer(0, 100);
-  setTimer(1, 50);
+  setTimer(1, 25);
   HAL_TIM_Base_Start_IT(&htim2);
 const int MAX_LED = 4;
 int index_led = 0;
@@ -240,7 +240,7 @@ void update7SEG ( int index ) {
 		  update7SEG(index_led);
 		  index_led++;
 		  if(index_led > 3) index_led = 0;
-		  setTimer(1, 50);
+		  setTimer(1, 25);
 	  }
     /* USER CODE END WHILE */
 
