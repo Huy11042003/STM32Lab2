@@ -197,13 +197,14 @@ int main(void)
   {
 	  if(timer_flag[0] == 1){
 		  HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 		  setTimer(0, 100);
 	  }
 	  if(timer_flag[1] == 1){
 		  switch(next_state){
 		  	  case 0:
 		  		  HAL_GPIO_WritePin(GPIOA, EN0_Pin, RESET);
-		  		  HAL_GPIO_WritePin(GPIOA, EN1_Pin, SET);
+		  		  HAL_GPIO_WritePin(GPIOA, EN3_Pin, SET);
 		  		  display7SEG(1);
 		  		  next_state = 1;
 		  		  break;
@@ -211,6 +212,18 @@ int main(void)
 		  		  HAL_GPIO_WritePin(GPIOA, EN1_Pin, RESET);
 		  		  HAL_GPIO_WritePin(GPIOA, EN0_Pin, SET);
 		  		  display7SEG(2);
+		  		  next_state = 2;
+		  		  break;
+		  	  case 2:
+		  		  HAL_GPIO_WritePin(GPIOA, EN2_Pin, RESET);
+		  		  HAL_GPIO_WritePin(GPIOA, EN1_Pin, SET);
+		  		  display7SEG(3);
+		  		  next_state = 3;
+		  		  break;
+		  	  case 3:
+		  		  HAL_GPIO_WritePin(GPIOA, EN3_Pin, RESET);
+		  		  HAL_GPIO_WritePin(GPIOA, EN2_Pin, SET);
+		  		  display7SEG(0);
 		  		  next_state = 0;
 		  		  break;
 		  }
@@ -320,14 +333,19 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_RED_Pin|EN0_Pin|EN1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, DOT_Pin|LED_RED_Pin|EN0_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, EN1_Pin|EN2_Pin|EN3_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, A_Pin|B_Pin|C_Pin|D_Pin
                           |E_Pin|F_Pin|G_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_RED_Pin EN0_Pin EN1_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin|EN0_Pin|EN1_Pin;
+  /*Configure GPIO pins : DOT_Pin LED_RED_Pin EN0_Pin EN1_Pin
+                           EN2_Pin EN3_Pin */
+  GPIO_InitStruct.Pin = DOT_Pin|LED_RED_Pin|EN0_Pin|EN1_Pin
+                          |EN2_Pin|EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
