@@ -235,8 +235,8 @@ void updateClockBuffer(){
 }
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-int init_buffer = 3;
-int current_buffer = 3;
+int init_buffer = 0;
+int current_buffer = 0;
 uint8_t matrix_buffer [8] = {0x3F, 0x7F, 0xCC, 0xCC, 0x7F, 0x3F, 0x00, 0x00};
 void setRow(uint8_t code){
 	  if((code >> 0) & 0x01)
@@ -327,10 +327,18 @@ void updateLEDMatrix (int index_led_matrix, int current_buffer) {
 		  current_buffer++;
 		  index_led_matrix++;
 		  if(index_led_matrix >= MAX_LED_MATRIX){
+//			  shift left
 			  index_led_matrix = 0;
 			  init_buffer--;
 			  if(init_buffer == -8) init_buffer = 7;
 			  current_buffer = init_buffer;
+//			  shift right
+//			  index_led_matrix = 0;
+//			  init_buffer++;
+//			  if(init_buffer == 8) init_buffer = -7;
+//			  current_buffer = init_buffer;
+
+
 	  	  }
 		  setTimer(2, 1);
 	  }
